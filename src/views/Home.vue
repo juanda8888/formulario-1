@@ -1,84 +1,25 @@
 <template>
   <form @submit.prevent="procesarFormulario">
-    <input 
-      type="text"
-      class="form-control my-2"
-      placeholder="Ingrese nombre"
-      v-model.trim="tarea.nombre"
-    >
-    
-    <div class="form-check form-check-inline">
-      <input 
-        class="form-check-input" 
-        type="checkbox" 
-        id="inlineCheckbox1" 
-        value="javascript"
-        v-model="tarea.categorias"
-      >
-      <label class="form-check-label" for="inlineCheckbox1">JavaScript</label>
-    </div>
-    <div class="form-check form-check-inline">
-      <input 
-        class="form-check-input" 
-        type="checkbox" 
-        id="inlineCheckbox2" 
-        value="nodejs"
-        v-model="tarea.categorias"
-      >
-      <label class="form-check-label" for="inlineCheckbox2">Node.js</label>
-    </div>
-    <div class="mt-2">
-      <div class="form-check form-check-inline">
-        <input 
-          class="form-check-input" 
-          type="radio"
-          id="inlineRadio1"
-          name="estado"
-          value="urgente"
-          v-model="tarea.estado">
-        <label class="form-check-label" for="inlineRadio1">Urgente</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input 
-          class="form-check-input" 
-          type="radio"
-          id="inlineRadio2"
-          name="estado"
-          value="relax"
-          v-model="tarea.estado">
-        <label class="form-check-label" for="inlineRadio2">Relax</label>
-      </div>
-    </div>
-
-    <div class="mt-2">
-      <input 
-        type="number"
-        class="form-control"
-        v-model.number="tarea.numero"
-      >
-    </div>
-
-    <button 
-      class="btn btn-dark mt-2 btn-block"
-      type="submit"
-      :disabled="bloquear"
-    >Procesar
-    </button>
+    <Input :tarea="tarea"/>
   </form>
   <hr>
   <p>{{tarea}}</p>
 </template>
 
 <script>
-
+import Input from '../components/Input';
+import { mapActions } from 'vuex';
+const shortid = require('shortid');
 
 export default {
   name: 'Home',
   components: {
+    Input
   },
   data() {
     return {
       tarea: {
+        id: '',
         nombre: '',
         categorias: [],
         estado: '',
@@ -87,6 +28,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['setTareas']),
     procesarFormulario(){
       console.log(this.tarea)
       if(this.tarea.nombre.trim() === "") {
@@ -95,18 +37,19 @@ export default {
         return
       }
       console.log('no esta vacio')
+      // generar id
+      this.tarea.id = shortid.generate();
+      console.log(this.tarea.id)
       //enviamos datos
+      this.setTareas(this.tarea)
+
       this.tarea= {
+        id: '',
         nombre: '',
         categorias: [],
         estado: '',
         numero: 0
       }
-    }
-  },
-  computed: {
-    bloquear(){
-      return this.tarea.nombre.trim() === "" ? true : false;
     }
   }
 }
