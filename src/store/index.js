@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import mutationsApp from './mutations'
 
 export default createStore({
   state: {
@@ -11,13 +12,7 @@ export default createStore({
     }
   },
   mutations: {
-    set(state, payload) {
-      state.tareas.push(payload);
-      console.log(state.tareas)
-    },
-    eliminar(state, payload) {
-      state.tareas = state.tareas.filter(item => item.id !== payload);
-    }
+    ...mutationsApp
   },
   actions: {
     setTareas({ commit }, tarea) {
@@ -25,6 +20,12 @@ export default createStore({
     },
     deleteTareas({ commit }, id) {
       commit('eliminar', id);
+    },
+    setTarea({ commit }, id) {
+      commit('tarea', id)
+    },
+    updateTarea({ commit }, tarea) {
+      commit('update', tarea)
     }
   },
   modules: {

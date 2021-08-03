@@ -32,12 +32,7 @@ export default {
   methods: {
     ...mapActions(['setTareas']),
     procesarFormulario(){
-      console.log(this.tarea)
-      if(this.tarea.nombre.trim() === "") {
-        console.log('campo vacio');
-
-        return
-      }
+      console.log('tarea', this.tarea)
       console.log('no esta vacio')
       // generar id
       this.tarea.id = shortid.generate();
