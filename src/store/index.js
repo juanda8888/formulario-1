@@ -15,6 +15,15 @@ export default createStore({
     ...mutationsApp
   },
   actions: {
+    cargarLocalStorage({ commit }) {
+      if(localStorage.getItem('tareas')) {
+        const tareas = JSON.parse(localStorage.getItem('tareas'))
+        commit('cargar', tareas)
+        return
+      }
+
+      localStorage.setItem('tareas', JSON.stringify([]))
+    },
     setTareas({ commit }, tarea) {
       commit('set', tarea)
     },
