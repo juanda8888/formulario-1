@@ -10,7 +10,8 @@ export default createStore({
       categorias: [],
       estado: '',
       numero: 0
-    }
+    },
+    user: null
   },
   mutations: {
     ...mutationsApp

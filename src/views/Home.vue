@@ -30,7 +30,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setTareas']),
+    ...mapActions(['setTareas', 'cargarLocalStorage']),
     procesarFormulario(){
       console.log('tarea', this.tarea)
       console.log('no esta vacio')
@@ -48,6 +48,9 @@ export default {
         numero: 0
       }
     }
+  },
+  created() {
+    this.cargarLocalStorage()
   }
 }
 </script>

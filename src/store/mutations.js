@@ -1,5 +1,8 @@
 import router from '../router'
 export default {
+  setUser(state, payload) {
+    state.user = payload
+  },
   cargar(state, payload) {
     state.tareas = payload
   },
