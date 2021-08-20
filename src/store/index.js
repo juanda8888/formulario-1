@@ -11,7 +11,8 @@ export default createStore({
       estado: '',
       numero: 0
     },
-    user: null
+    user: null,
+    error: {tipo: null, mensaje: ''}
   },
   mutations: {
     ...mutationsApp
