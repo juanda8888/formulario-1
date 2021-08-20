@@ -4,6 +4,9 @@
   >
     Login de usuario
   </h1>
+  <div class="alert alert-warning" v-if="error.tipo !== null">
+      {{error.mensaje}}
+  </div>
   <form
     @submit.prevent="procesarFormulario"
   >
@@ -30,7 +33,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -47,7 +50,8 @@ export default {
         return false
       }
       return true
-    }
+    },
+    ...mapState(['error'])
   },
   methods: {
     ...mapActions(['loginUsuario']),

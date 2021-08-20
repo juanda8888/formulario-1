@@ -19,9 +19,11 @@ export default {
       const userDB = await res.json()
       console.log('user login', userDB)
       if(userDB.error) {
-        return
+        console.log('error', userDB.error.message)
+        return commit('setError', userDB.error.message)
       }
       commit('setUser', userDB)
+      commit('setError', null)
       router.push('/')
       localStorage.setItem('usuario', JSON.stringify(userDB))
     } catch (error) {
@@ -43,10 +45,10 @@ export default {
       console.log('user register', userDB)
       if(userDB.error) {
         console.log(userDB.error.errors)
-        return
+        return commit('setError', dataDB.error.message)
       }
       commit('setUser', userDB)
-      
+      commit('setError', null)
       router.push('/login')
     } catch (error) {
       console.log(error.errors)
