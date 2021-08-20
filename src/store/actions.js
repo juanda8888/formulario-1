@@ -1,5 +1,10 @@
 import router from '../router'
 export default {
+  cerrarSesion({ commit }) {
+    commit('setUser', null)
+    router.push('/login')
+    localStorage.removeItem('usuario')
+  },
   async loginUsuario({ commit }, usuario) {
     try {
       const res = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=
@@ -14,12 +19,11 @@ export default {
       const userDB = await res.json()
       console.log('user login', userDB)
       if(userDB.error) {
-        console.log(userDB.error.errors)
         return
       }
       commit('setUser', userDB)
       router.push('/')
-      console.log(usuario)
+      localStorage.setItem('usuario', JSON.stringify(userDB))
     } catch (error) {
       console.log(error.errors)
     }
@@ -42,11 +46,19 @@ export default {
         return
       }
       commit('setUser', userDB)
+      
+      router.push('/login')
     } catch (error) {
       console.log(error.errors)
     }
   },
   async cargarLocalStorage({ commit, state }) {
+    if (localStorage.getItem('usuario')) {
+      commit('setUser', JSON.parse(localStorage.getItem('usuario')))
+      console.log('dato de local', JSON.parse(localStorage.getItem('usuario')))
+    } else {
+      return commit('setUser', null)
+    }
     try {
       const res = await fetch(`https://vue-project-api-31d89-default-rtdb.europe-west1.firebasedatabase.app/tareas/${state.user.localId}.json?auth=${state.user.idToken}`)
 

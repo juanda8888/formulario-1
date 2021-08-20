@@ -19,6 +19,11 @@ export default createStore({
   actions: {
     ...actions
   },
+  getters: {
+    usuarioAutenticado(state) {
+      return !!state.user
+    }
+  },
   modules: {
   }
 })
